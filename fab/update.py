@@ -135,9 +135,9 @@ def update_site_core(project='pantheon', keep=None, taskid=None):
     log.info('Initializing update to core.')
     updater = update.Updater(project, 'dev')
     try:
+        result = updater.core_update(keep)
         with settings(warn_only=True):
-            result = updater.core_update(keep)
-        re = local("drush @%s_dev -b updb" % project)
+            re = local("drush @%s_dev -b updb" % project)
         pantheon.log_drush_backend(re, log)
         updater.permissions_update()
     except:
