@@ -135,7 +135,8 @@ def update_site_core(project='pantheon', keep=None, taskid=None):
     log.info('Initializing update to core.')
     updater = update.Updater(project, 'dev')
     try:
-        result = updater.core_update(keep)
+        with settings(warn_only=True):
+            result = updater.core_update(keep)
         re = local("drush @%s_dev -b updb" % project)
         pantheon.log_drush_backend(re, log)
         updater.permissions_update()
@@ -173,7 +174,8 @@ def update_code(project, environment, tag=None, message=None, taskid=None):
     try:
         updater.test_tag(tag)
         updater.code_update(tag, message)
-        result = local("drush @%s_%s -b updb" % (project, environment))
+        with settings(warn_only=True):
+            result = local("drush @%s_%s -b updb" % (project, environment))
         pantheon.log_drush_backend(result, log)
         updater.permissions_update()
     except:
@@ -216,7 +218,8 @@ def update_data(project, environment, source_env, updatedb='True', taskid=None):
         updater.data_update(source_env)
         # updatedb is passed in as a string so we have to evaluate it
         if eval(string.capitalize(updatedb)):
-            result = local("drush @%s_%s -b updb" % (project, environment))
+            with settings(warn_only=True):
+                result = local("drush @%s_%s -b updb" % (project, environment))
             pantheon.log_drush_backend(result, log)
     except:
         jenkinstools.junit_error(traceback.format_exc(), 'UpdateData')
