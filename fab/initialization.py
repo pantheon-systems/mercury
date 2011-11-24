@@ -43,6 +43,8 @@ def _initialize_root_certificate():
     """Install the Pantheon root certificate.
 
     """
+	if server.distro == 'ubuntu':
+        local('apt-get install -y curl')
     pantheon.configure_root_certificate('http://pki.getpantheon.com')
 
 def _initialize_package_manager(server):
