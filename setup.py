@@ -12,7 +12,8 @@ def deploy():
                 'python-pip',
                 'python-crypto',
                 'python-setuptools',
-                'python-lxml']
+                'python-lxml',
+                'curl']
 
     os.system('apt-get install -y %s' % ' '.join(packages))
     os.system('pip install fabric==0.9.3')
